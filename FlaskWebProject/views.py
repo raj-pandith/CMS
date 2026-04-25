@@ -63,24 +63,31 @@ def login():
     if current_user.is_authenticated:
         return redirect(url_for('home'))
     form = LoginForm()
-
-
+    auth_url = None  # Initialize auth_url
 
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
         if user is None or not user.check_password(form.password.data):
-            app.logger.warning("Invalid login attempt")
+            app.logger.warning(f"Invalid login attempt for username: {form.username.data}")
             flash('Invalid username or password')
             return redirect(url_for('login'))
+        app.logger.info(f"User {form.username.data} logged in successfully")
         login_user(user, remember=form.remember_me.data)
         next_page = request.args.get('next')
         if not next_page or url_parse(next_page).netloc != '':
             next_page = url_for('home')
         return redirect(next_page)
 
-
-    session["state"] = str(uuid.uuid4())
-    auth_url = _build_auth_url(scopes=Config.SCOPE, state=session["state"])
+    try:
+        session["state"] = str(uuid.uuid4())
+        app.logger.debug(f"Building auth URL with scopes: {Config.SCOPE}")
+        auth_url = _build_auth_url(scopes=Config.SCOPE, state=session["state"])
+        app.logger.debug(f"Auth URL built successfully")
+    except Exception as e:
+        app.logger.exception(f"Error building auth URL: {str(e)}")
+        flash('Error connecting to Microsoft authentication service')
+        auth_url = None
+        
     return render_template('login.html', title='Sign In', form=form, auth_url=auth_url)
 
 @app.route(Config.REDIRECT_PATH)  # Its absolute URL must match your app's redirect_uri set in AAD
@@ -136,18 +143,35 @@ def _save_cache(cache):
 
 def _build_msal_app(cache=None, authority=None):
     # Build the ConfidentialClientApplication using values from your Config
-    return msal.ConfidentialClientApplication(
-        app.config['CLIENT_ID'], 
-        authority=authority or app.config['AUTHORITY'],
-        client_credential=app.config['CLIENT_SECRET'], 
-        token_cache=cache
-    )
+    try:
+        app.logger.debug(f"Building MSAL app with CLIENT_ID: {app.config['CLIENT_ID'][:10]}***")
+        app.logger.debug(f"Using authority: {authority or app.config['AUTHORITY']}")
+        msal_app = msal.ConfidentialClientApplication(
+            app.config['CLIENT_ID'], 
+            authority=authority or app.config['AUTHORITY'],
+            client_credential=app.config['CLIENT_SECRET'], 
+            token_cache=cache
+        )
+        app.logger.debug("MSAL app created successfully")
+        return msal_app
+    except Exception as e:
+        app.logger.exception(f"Error building MSAL app: {str(e)}")
+        raise
 
 def _build_auth_url(authority=None, scopes=None, state=None):
     # Generates the URL to redirect the user to Microsoft for login
-    msal_app = _build_msal_app(authority=authority)
-    return msal_app.get_authorization_request_url(
-        scopes or [],
-        state=state or str(uuid.uuid4()),
-        redirect_uri=url_for("authorized", _external=True) # Must match Azure Portal
-    )
+    try:
+        app.logger.debug(f"Building auth URL with scopes: {scopes}")
+        msal_app = _build_msal_app(authority=authority)
+        redirect_uri = url_for("authorized", _external=True)
+        app.logger.debug(f"Using redirect_uri: {redirect_uri}")
+        auth_url = msal_app.get_authorization_request_url(
+            scopes or [],
+            state=state or str(uuid.uuid4()),
+            redirect_uri=redirect_uri  # Must match Azure Portal
+        )
+        app.logger.debug(f"Auth URL generated successfully")
+        return auth_url
+    except Exception as e:
+        app.logger.exception(f"Error building auth URL: {str(e)}")
+        raise
