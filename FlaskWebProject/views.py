@@ -163,7 +163,7 @@ def _build_auth_url(authority=None, scopes=None, state=None):
     try:
         app.logger.debug(f"Building auth URL with scopes: {scopes}")
         msal_app = _build_msal_app(authority=authority)
-        redirect_uri = url_for("authorized", _external=True)
+        redirect_uri = url_for("authorized", _external=True,_scheme="https")
         app.logger.debug(f"Using redirect_uri: {redirect_uri}")
         auth_url = msal_app.get_authorization_request_url(
             scopes or [],
