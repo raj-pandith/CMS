@@ -42,3 +42,6 @@ SQLAlchemy==2.0.30
 urllib3>=2.0.0
 Werkzeug==2.2.3
 WTForms>=3.0.1
+
+Flask
+gunicorn
