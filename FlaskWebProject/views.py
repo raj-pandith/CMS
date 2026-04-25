@@ -103,7 +103,7 @@ def authorized():
         result = msal_app.acquire_token_by_authorization_code(
             request.args['code'],
             scopes=app.config['SCOPE'],
-            redirect_uri=url_for("authorized", _external=True)
+            redirect_uri=url_for("authorized", _external=True, _scheme="https")
         )
 
         if "error" in result:
@@ -125,7 +125,7 @@ def logout():
         # Also logout from your tenant's web session
         return redirect(
             Config.AUTHORITY + "/oauth2/v2.0/logout" +
-            "?post_logout_redirect_uri=" + url_for("login", _external=True))
+            "?post_logout_redirect_uri=" + url_for("login", _external=True, _scheme="https"))
 
     return redirect(url_for('login'))
 
