@@ -12,6 +12,7 @@ app = Flask(__name__, template_folder='FlaskWebProject/templates')
 app.config.from_object(Config)
 app.logger.setLevel(logging.DEBUG)
 
+
 streamHandler = logging.StreamHandler()
 streamHandler.setLevel(logging.WARNING)
 app.logger.addHandler(streamHandler) 
