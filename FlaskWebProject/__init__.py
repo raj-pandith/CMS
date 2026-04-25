@@ -8,7 +8,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_session import Session
 
-app = Flask(__name__,template_folder='FlaskWebProject/templates',static_folder='FlaskWebProject/static')
+app = Flask(__name__, template_folder='FlaskWebProject/templates')
 app.config.from_object(Config)
 app.logger.setLevel(logging.DEBUG)
 
