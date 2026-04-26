@@ -6,23 +6,22 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 class Config(object):
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'secret-key'
 
-    BLOB_ACCOUNT = os.environ.get('BLOB_ACCOUNT') or 'cmsblobstorage123'
-    BLOB_STORAGE_KEY = os.environ.get('BLOB_STORAGE_KEY') or 'SdKM6rIuRzdKnC7cHSY4Bl4XaAyf+dPOzFvzOF/L9LBZnIiLQFtpXxJXUVw9uTz723Qk/cxTfBg3+AStjJJO6g=='
+    BLOB_ACCOUNT = os.environ.get('BLOB_ACCOUNT') or 'cmsblobstorageacc'
+    BLOB_STORAGE_KEY = os.environ.get('BLOB_STORAGE_KEY') or 'rHl65DWAse8YuNxvq8wYb+GYDoBxMLjIdrJWpmBx7/uxiH6TfnZeSUhaSQpXq49en1HzP76QX4fv+ASt0DnSgw=='
     BLOB_CONTAINER = os.environ.get('BLOB_CONTAINER') or 'images'
 
-    SQL_SERVER = os.environ.get('SQL_SERVER') or 'cms-sql-server.database.windows.net'
-    SQL_DATABASE = os.environ.get('SQL_DATABASE') or 'cms-sql-database'
-    SQL_USER_NAME = os.environ.get('SQL_USER_NAME') or 'cms-sql-server-admin'
+    SQL_SERVER = os.environ.get('SQL_SERVER') or 'cms-database-server.database.windows.net'
+    SQL_DATABASE = os.environ.get('SQL_DATABASE') or 'free-sql-db-6493018'
+    SQL_USER_NAME = os.environ.get('SQL_USER_NAME') or 'cms-admin'
     SQL_PASSWORD = os.environ.get('SQL_PASSWORD') or 'Raj1234$'
     # Below URI may need some adjustments for driver version, based on your OS, if running locally
-    # SQLALCHEMY_DATABASE_URI = 'mssql+pyodbc://' + SQL_USER_NAME +':' + SQL_PASSWORD + '@' + SQL_SERVER + ':1433/' + SQL_DATABASE + '?driver=ODBC+Driver+18+for+SQL+Server&Encrypt=yes&TrustServerCertificate=yes&LoginTimeout=30'
-    
-    SQLALCHEMY_DATABASE_URI = f'mssql+pyodbc://{SQL_USER_NAME}:{SQL_PASSWORD}@{SQL_SERVER}:1433/{SQL_DATABASE}?driver=ODBC+Driver+18+for+SQL+Server&Encrypt=yes&TrustServerCertificate=yes'
+    SQLALCHEMY_DATABASE_URI = 'mssql+pyodbc://cms-admin:Raj1234$@cms-database-server.database.windows.net:1433/free-sql-db-6493018?driver=ODBC+Driver+18+for+SQL+Server&Encrypt=yes&TrustServerCertificate=yes&LoginTimeout=30'
+
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     ### Info for MS Authentication ###
     ### As adapted from: https://github.com/Azure-Samples/ms-identity-python-webapp ###
-    CLIENT_SECRET = "AXL8Q~.uHL8Mbh-y.QUjm~Igw_lo4udfRggrhcJ~"
+    CLIENT_SECRET = "~NS8Q~J5BtKpfKhaDYlH99OJBg-65b1SJZpwPayc"
     # In your production app, Microsoft recommends you to use other ways to store your secret,
     # such as KeyVault, or environment variable as described in Flask's documentation here:
     # https://flask.palletsprojects.com/en/1.1.x/config/#configuring-from-environment-variables
@@ -30,10 +29,10 @@ class Config(object):
     # if not CLIENT_SECRET:
     #     raise ValueError("Need to define CLIENT_SECRET environment variable")
 
-    AUTHORITY = "https://login.microsoftonline.com/common"  # For multi-tenant app, else put tenant name
-    # AUTHORITY = "https://login.microsoftonline.com/f958e84a-92b8-439f-a62d-4f45996b6d07"
+    # AUTHORITY = "https://login.microsoftonline.com/common"  # For multi-tenant app, else put tenant name
+    AUTHORITY = "https://login.microsoftonline.com/f958e84a-92b8-439f-a62d-4f45996b6d07"
 
-    CLIENT_ID = "4d384b64-b9be-4c67-8327-68542c1d007f"
+    CLIENT_ID = "46c293e5-9a83-4781-a6bf-fd9260577303"
 
     REDIRECT_PATH = "/getAToken"  # Used to form an absolute URL; must match to app's redirect_uri set in AAD
 

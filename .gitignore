@@ -1,18 +1,4 @@
-# Environments
-venv/
-env/
-.env
-
-# Python junk
-__pycache__/
-*.pyc
-
-# Project specific
-flask_session/
-instance/
-test.py
-*.log
-
-# OS junk
-.DS_Store
-Thumbs.db
+/.idea/
+/.terraform/
+/venv/
+/.terraform.lock.hcl
