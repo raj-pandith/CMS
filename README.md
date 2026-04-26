@@ -40,7 +40,7 @@ You are expected to do the following to complete this project:
 10. Take a screenshot of your logs (can be from the Log stream in Azure) showing logging from an attempt to sign in with an invalid login, as well as a valid login. 
 >>Invalid
 ![Alt Text](example_images/invalid.png)
->>Invalid
+>>valid
 ![Alt Text](example_images/valid.png)
 ## example_images Folder
 
