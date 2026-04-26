@@ -37,7 +37,7 @@ You are expected to do the following to complete this project:
  ![Alt Text](example_images/resorce_group.png)
 9. Take a screenshot of the Redirect URIs entered for your registered app, related to the MS Login button.
 ![Alt Text](example_images/redirect_url.png)
-10. Take a screenshot of your logs (can be from the Log stream in Azure) showing logging from an attempt to sign in with an invalid login, as well as a valid login.
+10. Take a screenshot of your logs (can be from the Log stream in Azure) showing logging from an attempt to sign in with an invalid login, as well as a valid login. 
 >>Invalid
 ![Alt Text](example_images/invalid.png)
 >>Invalid
